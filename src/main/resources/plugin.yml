@@ -1,0 +1,8 @@
+name: LOGuildSystemExampleDev
+version: '${version}'
+main: com.gmail.necnionch.myplugin.guildsystemexampledev.bukkit.GuildSystemExampleDevPlugin
+api-version: 1.18
+author: Necnion8
+
+depend:
+  - LOGuildSystem
