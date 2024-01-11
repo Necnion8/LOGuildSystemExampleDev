@@ -20,6 +20,8 @@ public final class GuildSystemExampleDevPlugin extends JavaPlugin {
     public void onEnable() {
         new File(getDataFolder(), GUILD_QUEST_FOLDER).mkdirs();
 
+        // ギルドシステムの初期化の前に登録する必要があるので、
+        // plugin.yml にて load: STARTUP を指定する必要がある
         registerCustomQuests();
         registerCustomRewards();
     }
