@@ -10,13 +10,14 @@ import java.io.File;
 public final class GuildSystemExampleDevPlugin extends JavaPlugin {
 
     public static final String GUILD_QUEST_FOLDER = "guildquests";
+    public static final String EXTENSION_ID = "ExampleDev";
 
     private final GuildQuest.Deserializer emptyBucketQuestDeserializer = id -> (id.equals(EmptyBucketQuest.ID)) ? this::createEmptyBucketQuest : null;
-    private final RewardExtension.Deserializer fireworkRewardDeserializer = (name, args) -> (name.equals(FireworkReward.ID)) ? this.createFireworkReward() : null;
+    private final RewardExtension.Deserializer fireworkRewardDeserializer = (name, args) -> (name.equals(FireworkReward.NAME)) ? this.createFireworkReward() : null;
 
 
     @Override
-    public void onLoad() {
+    public void onEnable() {
         new File(getDataFolder(), GUILD_QUEST_FOLDER).mkdirs();
 
         registerCustomQuests();
@@ -30,6 +31,12 @@ public final class GuildSystemExampleDevPlugin extends JavaPlugin {
     }
 
 
+    /**
+     * 設定例:
+     * plugins/LOGuildSystem/config.yml
+     *   guild-quests:
+     *     - emptyBucket
+     */
     public void registerCustomQuests() {
         GuildQuest.register(emptyBucketQuestDeserializer);
     }
@@ -42,12 +49,20 @@ public final class GuildSystemExampleDevPlugin extends JavaPlugin {
         return new EmptyBucketQuest(this, guild);
     }
 
+    /**
+     * 設定例:
+     * plugins/LOGuildSystem/config.yml
+     *   rank-rewards:
+     *     "*":
+     *       extensions:
+     *         - ExampleDev:simpleFirework
+     */
     public void registerCustomRewards() {
-        RewardExtension.register(FireworkReward.ID, fireworkRewardDeserializer);
+        RewardExtension.register(EXTENSION_ID, fireworkRewardDeserializer);
     }
 
     public void unregisterCustomRewards() {
-        RewardExtension.unregister(FireworkReward.ID, fireworkRewardDeserializer);
+        RewardExtension.unregister(EXTENSION_ID, fireworkRewardDeserializer);
     }
 
     private FireworkReward createFireworkReward() {

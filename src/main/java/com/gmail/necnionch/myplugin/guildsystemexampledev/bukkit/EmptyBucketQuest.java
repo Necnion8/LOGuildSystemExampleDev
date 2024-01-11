@@ -4,7 +4,10 @@ import com.gmail.necnionch.myplugin.guildsystem.bukkit.guild.Guild;
 import com.gmail.necnionch.myplugin.guildsystem.bukkit.quest.GuildQuest;
 import com.gmail.necnionch.myplugin.guildsystem.bukkit.quest.errors.QuestLoadError;
 import com.gmail.necnionch.myplugin.guildsystem.common.BukkitConfigDriver;
+import com.gmail.necnionch.myplugin.infogui.bukkit.icon.QuestIcon;
+import com.gmail.necnionch.myplugin.infogui.bukkit.icon.QuestIconable;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -12,7 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.jetbrains.annotations.Nullable;
 
-public class EmptyBucketQuest extends GuildQuest implements Listener {
+public class EmptyBucketQuest extends GuildQuest implements QuestIconable, Listener {
 
     private final GuildSystemExampleDevPlugin plugin;  // リスナー登録のためにプラグインインスタンスを設定しておく
 
@@ -34,6 +37,11 @@ public class EmptyBucketQuest extends GuildQuest implements Listener {
     public void onEmpty(PlayerBucketEmptyEvent event) {
         Player player = event.getPlayer();
 
+        // 全Tier達成なら無視
+        if (getMaxTier() <= getCurrentTier())
+            return;
+
+        // ギルドメンバーなら
         if (getGuild().isJoined(player.getUniqueId())) {
             count++;
 
@@ -71,7 +79,7 @@ public class EmptyBucketQuest extends GuildQuest implements Listener {
 
     @Override
     public int getCurrentTier() {
-        return count <= TOTAL_COUNT ? 1 : 0;  // 達成したTier数。これが getMaxTier() まで達したら完全完了と見なされる。
+        return count < TOTAL_COUNT ? 0 : 1;  // 達成したTier数。これが getMaxTier() まで達したら完全完了と見なされる。
     }
 
     @Override
@@ -98,12 +106,19 @@ public class EmptyBucketQuest extends GuildQuest implements Listener {
 
     @Override
     public @Nullable String getDisplayName() {
-        return "ジャンプ5回";  // このクエストの表示名を返す
+        return "バケツを5回空にする";  // このクエストの表示名を返す
     }
 
     @Override
     public @Nullable String getDisplayNameLast() {
-        return null;  // getDisplayName() と同等。ただし、表示名を動的に変更する場合に必要
+        return getDisplayName();  // getDisplayName() と同等。ただし、表示名を動的に変更する場合に必要
+    }
+
+    @Override
+    public QuestIcon getIcon(GuildQuest q) {
+        QuestIcon.Builder icon = QuestIcon.fromQuest(this);
+        icon.setIcon(Material.BUCKET);
+        return icon.create();  // GUIに表示されるアイコンを設定
     }
 
 

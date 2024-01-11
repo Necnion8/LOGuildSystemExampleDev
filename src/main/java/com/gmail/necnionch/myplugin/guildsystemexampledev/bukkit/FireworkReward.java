@@ -16,11 +16,11 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.jetbrains.annotations.Nullable;
 
 public class FireworkReward extends RewardExtension {
-    public static final String ID = "simpleFirework";
+    public static final String NAME = "simpleFirework";
 
     @Override
     public String getName() {
-        return ID;
+        return NAME;
     }
 
     @Override

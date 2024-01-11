@@ -4,5 +4,6 @@ main: com.gmail.necnionch.myplugin.guildsystemexampledev.bukkit.GuildSystemExamp
 api-version: 1.18
 author: Necnion8
 
+load: STARTUP
 depend:
   - LOGuildSystem
