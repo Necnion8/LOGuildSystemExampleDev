@@ -5,7 +5,11 @@ import com.gmail.necnionch.myplugin.guildsystem.bukkit.quest.GuildQuest;
 import com.gmail.necnionch.myplugin.guildsystem.bukkit.reward.extension.RewardExtension;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 public final class GuildSystemExampleDevPlugin extends JavaPlugin {
+
+    public static final String GUILD_QUEST_FOLDER = "guildquests";
 
     private final GuildQuest.Deserializer emptyBucketQuestDeserializer = id -> (id.equals(EmptyBucketQuest.ID)) ? this::createEmptyBucketQuest : null;
     private final RewardExtension.Deserializer fireworkRewardDeserializer = (name, args) -> (name.equals(FireworkReward.ID)) ? this.createFireworkReward() : null;
@@ -13,6 +17,8 @@ public final class GuildSystemExampleDevPlugin extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        new File(getDataFolder(), GUILD_QUEST_FOLDER).mkdirs();
+
         registerCustomQuests();
         registerCustomRewards();
     }

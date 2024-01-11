@@ -110,7 +110,7 @@ public class EmptyBucketQuest extends GuildQuest implements Listener {
     // 状態を保持するためのファイル
     public class Config extends BukkitConfigDriver {
         public Config(Guild guild) {
-            super(plugin, "questconfig/" + guild.getId() + "_" + ID, "empty.yml");
+            super(plugin, GuildSystemExampleDevPlugin.GUILD_QUEST_FOLDER + "/" + guild.getId() + "_" + ID + ".yml", "empty.yml");
             // 他のギルドと被らないファイル名にする
         }
 
