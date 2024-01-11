@@ -12,7 +12,7 @@ public final class GuildSystemExampleDevPlugin extends JavaPlugin {
 
 
     @Override
-    public void onEnable() {
+    public void onLoad() {
         registerCustomQuests();
         registerCustomRewards();
     }
